@@ -1,0 +1,8 @@
+.DS_*
+bin/*
+*db/*
+*.out
+*.swp
+*.class
+
+spotcached
