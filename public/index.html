@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Pair Programming</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 20px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div style="position:absolute;top:0;left=0;right=0;height:20px;width:100%">test...</div>
+<pre id="editor">
+/**
+ * @created by darryl.west
+ * @created 2018-04-07 16:01:47
+ */
+public class MyTestClass {
+    public static void main(String[] args) {
+        System.out.println("This is a test.");
+    }
+}
+</pre>
+
+<script src="js-editor/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/textmate");
+    editor.session.setMode("ace/mode/java");
+    editor.setPrintMarginColumn(130);
+    editor.setShowPrintMargin(true);
+    // editor.setFoldWidget(true);
+    editor.setKeyboardHandler('ace/keyboard/vim');
+    editor.setFontSize(11);
+</script>
+
+</body>
+</html>
