@@ -22,7 +22,7 @@ Create an environment where two or more coders can work on the same files.  Priv
 
 ## Service Diagram
 
-![diagram](https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBFMShFZGl0b3IgQSkgLS0gd2ViIHNvY2tldCAtLT4gRlMoKFNoYXJlZCBGaWxlIFNlcnZpY2UpKVxuICAgIEUyKEVkaXRvciBCKSAtLSB3ZWIgc29ja2V0IC0tPiBGU1xuICAgIEZTIC0tPiBTRj5Tb3VyY2VGaWxlXVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0)
+![diagram](pair-programming-service.jpg)
 
 ###### darryl.west | 2018.04.08
 
