@@ -16,7 +16,6 @@ install-deps:
 	go get github.com/darrylwest/cassava-logger/logger
 	go get github.com/darrylwest/go-unique/unique
 	go get github.com/gorilla/websocket
-	go get github.com/go-zoo/bone
 
 format:
 	( gofmt -s -w src/*.go src/edit/*.go test/unit/*.go )

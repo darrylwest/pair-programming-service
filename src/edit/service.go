@@ -26,6 +26,14 @@ func NewService(cfg *Config) (*Service, error) {
 	return &svc, nil
 }
 
+func aboutHandler(w http.ResponseWriter, r *http.Request) {
+    log.Info("show the about page")
+
+    // serve a template file...
+    // w.Header().Set("Content-Type", "plain/html")
+    fmt.Fprintf(w, "<!doctype html><html><pre>%s</pre><h5>Version %s</h5><html>", logo, Version())
+}
+
 // Start start the admin listener and event loop
 func (svc Service) Start() error {
 	log.Info("start the hub service...")
@@ -33,6 +41,8 @@ func (svc Service) Start() error {
 
     fs := http.FileServer(http.Dir(cfg.StaticFolder))
     http.Handle("/", fs)
+
+    http.HandleFunc("/about", aboutHandler)
 
 	// start the listener
     host := fmt.Sprintf(":%d", cfg.Port)
