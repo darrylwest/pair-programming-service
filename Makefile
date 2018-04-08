@@ -1,6 +1,5 @@
 SHELL := /bin/bash
 export GOPATH:=$(HOME)/.gopath:$(PWD)
-TARGET=/usr/local/bin
 
 build: 
 	@[ -d bin ] || mkdir bin
@@ -16,13 +15,13 @@ install-deps:
 	go get github.com/franela/goblin
 
 format:
-	( gofmt -s -w src/*.go src/edit/*.go test/*.go )
+	( gofmt -s -w src/*.go src/edit/*.go test/unit/*.go )
 
 lint:
 	@( golint src/... && golint test/... )
 
 test:
-	@( go vet src/edit/*.go && go vet src/edit/*.go && go vet src/*.go && cd test/ && go test -cover )
+	@( go vet src/edit/*.go && go vet src/edit/*.go && go vet src/*.go && cd test/unit/ && go test -cover )
 	@( make lint )
 
 run:

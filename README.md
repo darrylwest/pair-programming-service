@@ -1,8 +1,16 @@
 # Pair Programming Service
 
+```
+ ___      _       ___                                    _           
+| _ \__ _(_)_ _  | _ \_ _ ___  __ _ _ _ __ _ _ __  _ __ (_)_ _  __ _ 
+|  _/ _` | | '_| |  _/ '_/ _ \/ _` | '_/ _` | '  \| '  \| | ' \/ _` |
+|_| \__,_|_|_|   |_| |_| \___/\__, |_| \__,_|_|_|_|_|_|_|_|_||_\__, |
+                              |___/                            |___/ 
+```
+
 ## Overview
 
-Create an environment whre two or more coders can work on the same files.  Private server based, Ace editor, websockets to sync files.
+Create an environment where two or more coders can work on the same files.  Private server based, Ace editor, websockets to sync files.
 
 ### Block Diagram
 
@@ -13,5 +21,5 @@ graph TD
     FS --> SF>SourceFile]
 ```
 
-###### darryl.west | 2018.04.02
+###### darryl.west | 2018.04.08
 
