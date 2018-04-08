@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Pair Programming</title>
+  <title>Pair Programming Editor</title>
   <!- replace with css/style.css -->
   <style type="text/css" media="screen">
     body {
@@ -34,6 +34,7 @@
             <button href="javascript:void(0);">Run Tests</button>
         </span>
         <span style="margin-left:100px;">
+            <button id="kbEditType" href="javascript:void(0);" onclick="toggleEditor(editor);">Vim</button>
             <button href="javascript:void(0);">Config</button>
             <button href="javascript:void(0);">About</button>
         </span>
@@ -53,16 +54,46 @@ public class MyTestClass {
 </pre>
 
 <script src="js-editor/ace.js" type="text/javascript" charset="utf-8"></script>
-<!-- replace with js/custom.js -->
-<script>
-    var editor = ace.edit("editor");
+<!-- replace with js/custom.js + unit tests -->
+<script type="text/javascript">
+    const version = '18.4.8';
+    console.log('Pair Programming Editor, Version', version);
+
+    const editor = ace.edit("editor");
     editor.setTheme("ace/theme/textmate");
     editor.session.setMode("ace/mode/java");
     editor.setPrintMarginColumn(130);
     editor.setShowPrintMargin(true);
     // editor.setFoldWidget(true);
     // editor.setKeyboardHandler('ace/keyboard/vim');
+    const dfltKeyboardHandler = editor.getKeyboardHandler();
     editor.setFontSize(12);
+</script>
+
+<script type="text/javascript">
+    const log = {
+        info: function(msg) {
+            console.log(msg);
+        }
+    };
+
+    function getElement(id) {
+        const el = document.getElementById(id);
+        return el;
+    }
+
+    function toggleEditor(view) {
+        const el = getElement('kbEditType');
+        if (view.getKeyboardHandler().$id === 'ace/keyboard/vim') {
+            view.setKeyboardHandler(dfltKeyboardHandler);
+            el.innerText = "Vim";
+        } else {
+            view.setKeyboardHandler('ace/keyboard/vim');
+            el.innerText = "Atom";
+        }
+
+        view.focus();
+    }
 </script>
 
 </body>
