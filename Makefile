@@ -11,8 +11,11 @@ docker:
 
 install-deps:
 	go get -u github.com/golang/lint/golint
-	go get github.com/oklog/ulid
 	go get github.com/franela/goblin
+    go get github.com/darrylwest/cassava-logger/logger
+    go get github.com/darrylwest/go-unique/unique
+    go get github.com/gorilla/websocket
+    go get github.com/go-zoo/bone
 
 format:
 	( gofmt -s -w src/*.go src/edit/*.go test/unit/*.go )

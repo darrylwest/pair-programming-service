@@ -14,12 +14,15 @@ Create an environment where two or more coders can work on the same files.  Priv
 
 ### Block Diagram
 
-```mermaid
-graph TD
-    E1(Editor A) -- web socket --> FS((Shared File Service))
-    E2(Editor B) -- web socket --> FS
-    FS --> SF>SourceFile]
-```
+## References
+
+* Ace editor [documentation](https://ace.c9.io/#nav=api&api=document)
+* Ace editor [how to](https://ace.c9.io/#nav=howto)
+* Web Sockets [api](https://github.com/gorilla/websocket)
+
+## Service Diagram
+
+![diagram](https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBFMShFZGl0b3IgQSkgLS0gd2ViIHNvY2tldCAtLT4gRlMoKFNoYXJlZCBGaWxlIFNlcnZpY2UpKVxuICAgIEUyKEVkaXRvciBCKSAtLSB3ZWIgc29ja2V0IC0tPiBGU1xuICAgIEZTIC0tPiBTRj5Tb3VyY2VGaWxlXVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0)
 
 ###### darryl.west | 2018.04.08
 
