@@ -12,10 +12,10 @@ docker:
 install-deps:
 	go get -u github.com/golang/lint/golint
 	go get github.com/franela/goblin
-    go get github.com/darrylwest/cassava-logger/logger
-    go get github.com/darrylwest/go-unique/unique
-    go get github.com/gorilla/websocket
-    go get github.com/go-zoo/bone
+	go get github.com/darrylwest/cassava-logger/logger
+	go get github.com/darrylwest/go-unique/unique
+	go get github.com/gorilla/websocket
+	go get github.com/go-zoo/bone
 
 format:
 	( gofmt -s -w src/*.go src/edit/*.go test/unit/*.go )
@@ -31,12 +31,9 @@ run:
 	go run src/main.go
 
 watch:
-	./watcher.js
+	go-watcher --loglevel=5
 
 edit:
 	vi -O3 src/*/*.go test/*.go src/*.go
-
-open:
-	(cd public && python -m SimpleHTTPServer)
 
 .PHONY: format test watch examples

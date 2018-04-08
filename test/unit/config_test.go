@@ -2,7 +2,7 @@
 // config tests
 //
 // @author darryl.west <darwest@ebay.com>
-// @created 2017-08-27 08:35:20
+// @created 2018-04-08 09:26:59
 //
 
 package unit
@@ -25,9 +25,9 @@ func TestConfig(t *testing.T) {
 			cfg := edit.NewDefaultConfig()
 			g.Assert(fmt.Sprintf("%T", cfg)).Equal("*edit.Config")
 			g.Assert(cfg.Port).Equal(3300)
-			g.Assert(cfg.BufSize).Equal(64)
 			g.Assert(cfg.LogLevel > 1).IsTrue()
 			g.Assert(cfg.DbFilename).Equal("data/edit.db")
+			g.Assert(cfg.StaticFolder).Equal("public")
 		})
 
 		g.It("should parse an empty command line and return default config", func() {
