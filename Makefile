@@ -1,5 +1,6 @@
-SHELL := /bin/bash
+SHELL = /bin/bash
 export GOPATH:=$(HOME)/.gopath:$(PWD)
+SERVICE = editor-service
 
 build: 
 	@[ -d bin ] || mkdir bin
@@ -7,7 +8,7 @@ build:
 	( go build -o bin/editor-service src/main.go )
 
 docker:
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o docker/editor-service src/main.go
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o docker/$(SERVICE) src/main.go
 
 install-deps:
 	go get -u github.com/golang/lint/golint
@@ -28,12 +29,12 @@ test:
 	@( make lint )
 
 run:
-	go run src/main.go
+	@make build && ./bin/$(SERVICE)
 
 watch:
 	go-watcher --loglevel=5
 
 edit:
-	vi -O3 src/*/*.go test/*.go src/*.go
+	vi -O3 src/*/*.go test/*/*.go src/*.go
 
 .PHONY: format test watch examples

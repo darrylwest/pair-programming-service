@@ -1,5 +1,5 @@
 //
-// service
+// service tests
 //
 // @author darryl.west@ebay.com
 // @created 2018-02-27 16:22:25
@@ -28,5 +28,7 @@ func TestService(t *testing.T) {
 			g.Assert(err).Equal(nil)
 			g.Assert(fmt.Sprintf("%T", service)).Equal("*edit.Service")
 		})
+
+        g.It("should configure the service routes")
 	})
 }
