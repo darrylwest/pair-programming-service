@@ -43,7 +43,7 @@
 
 <pre id="editor">
 /**
- * @created by darryl.west
+ * @author darryl.west
  * @created 2018-04-07 16:01:47
  */
 public class MyTestClass {
@@ -68,6 +68,10 @@ public class MyTestClass {
     // editor.setKeyboardHandler('ace/keyboard/vim');
     const dfltKeyboardHandler = editor.getKeyboardHandler();
     editor.setFontSize(12);
+
+    editor.on('change', (e) => {
+        sendUpdate(e);
+    });
 </script>
 
 <script type="text/javascript">
@@ -76,6 +80,11 @@ public class MyTestClass {
             console.log(msg);
         }
     };
+
+    function sendUpdate(delta) {
+        const req = '/update:' + JSON.stringify(delta);
+        console.log(req);
+    }
 
     function getElement(id) {
         const el = document.getElementById(id);

@@ -12,6 +12,7 @@
 
 Create an environment where two or more coders can work on the same files.  Private server based, Ace editor, websockets to sync files.
 
+
 ### Block Diagram
 
 ## References
@@ -23,6 +24,10 @@ Create an environment where two or more coders can work on the same files.  Priv
 ## Service Diagram
 
 ![diagram](pair-programming-service.jpg)
+
+## Keeping Documents in Sync
+
+Pair documents are kept in sync through web sockets.  There is an event listener attached to the editor that sends each change delta to the recipient.  The recipient then applies this delta (or a set of deltas) through the document API, `doc.appyDelta(delta)` or `doc.applyDeltas([ delta1, delta2 ])`.  Documents can be fully refreshed by clicking on the refresh button.
 
 ###### darryl.west | 2018.04.08
 
