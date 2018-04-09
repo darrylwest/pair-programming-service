@@ -35,11 +35,27 @@ func TestHandlers(t *testing.T) {
             g.Assert(len(commands) > 0).IsTrue()
         })
 
+        g.It("should create a response wrapper", func() {
+			handlers, _ := edit.NewHandlers(cfg)
+            wrapper := handlers.CreateResponseWrapper("/mycommand")
+            g.Assert(len(wrapper)).Equal(1)
+            g.Assert(wrapper["request"]).Equal("/mycommand")
+        })
+
         g.It("should handle a ping request", func() {
 			handlers, _ := edit.NewHandlers(cfg)
             response, err := handlers.PingHandler("/ping")
 			g.Assert(err).Equal(nil)
-            g.Assert(len(response)).Equal(1)
+            g.Assert(response["request"]).Equal("/ping")
+            g.Assert(response["response"]).Equal("pong")
+        })
+
+        g.It("should handle an update request", func() {
+			handlers, _ := edit.NewHandlers(cfg)
+            response, err := handlers.PingHandler("/ping")
+			g.Assert(err).Equal(nil)
+            g.Assert(response["request"]).Equal("/ping")
+            g.Assert(response["response"]).Equal("pong")
         })
 	})
 }

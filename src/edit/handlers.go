@@ -47,15 +47,46 @@ func (h Handlers) InitCommands() map[string]Commander {
 
 // ClientHandler upgrade the connection for websockets
 func (h Handlers) ClientHandler(w http.ResponseWriter, r *http.Request) {
+    log.Info("web socket client request: %s", r.URL);
+    conn, err := upgrader.Upgrade(w, r, nil)
+    if err != nil {
+        log.Error("upgrade error: %s", err)
+        return
+    }
 
+    defer func() {
+        log.Info("client session closed...")
+        conn.Close()
+    }()
+
+    for {
+        _, raw, err := conn.ReadMessage()
+        if err != nil {
+            log.Warn("client socket down: %s", err);
+            break
+        }
+
+        log.Info("raw request: %s", raw)
+        request := string(raw)
+        log.Info("%s", request)
+    }
+}
+
+// CreateResponseWrapper creates the standard response wrapper for websocket messages
+func (h Handlers) CreateResponseWrapper(request string) CommandResponse {
+    wrapper := make(map[string]interface{})
+
+    wrapper["request"] = request
+
+    return wrapper
 }
 
 // PingHandler return the ping response
 func (h Handlers) PingHandler(request string) (CommandResponse, error) {
-    response := make(map[string]interface{})
-    response["pong"] = true
+    wrapper := h.CreateResponseWrapper(request)
+    wrapper["response"] = "pong"
 
-    return response, nil
+    return wrapper, nil
 }
 
 // AboutHandler returns the about page
