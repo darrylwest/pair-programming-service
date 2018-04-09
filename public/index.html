@@ -26,17 +26,19 @@
 <div style="position:absolute;top:0;left=0;right=0;height:24px;width:100%">
     <div style="background-color:#222;">
         <span style="margin-left:8px;">
+            <button href="javascript:void(0);">New</button>
             <button href="javascript:void(0);">Open</button>
             <button href="javascript:void(0);">Save</button>
         </span>
         <span style="margin-left:16px;">
+            <button id="editButton" href="javascript:void(0);" onclick="toggleReadOnly(editor);">Edit</button>
             <button href="javascript:void(0);">Build</button>
             <button href="javascript:void(0);">Run Tests</button>
         </span>
         <span style="margin-left:100px;">
             <button id="kbEditType" href="javascript:void(0);" onclick="toggleEditor(editor);">Vim</button>
-            <button href="javascript:void(0);">Config</button>
-            <button href="javascript:void(0);">About</button>
+            <button href="javascript:void(0);" onclick="showPage('/config');">Config</button>
+            <button href="javascript:void(0);" onclick="showPage('/about');">About</button>
         </span>
     </div>
 </div>
@@ -58,7 +60,7 @@ public class MyTestClass {
 <script src="js-editor/ace.js" type="text/javascript" charset="utf-8"></script>
 <!-- replace with js/custom.js + unit tests -->
 <script type="text/javascript">
-    const version = '18.4.8';
+    const version = '18.4.9';
     console.log('Pair Programming Editor, Version', version);
 
     const editor = ace.edit("editor");
@@ -105,6 +107,26 @@ public class MyTestClass {
         }
 
         view.focus();
+    }
+
+    function toggleReadOnly(view) {
+        const el = getElement('editButton');
+        if (view.getReadOnly()) {
+            log.info("disable readonly...");
+            view.setReadOnly(false);
+            el.innerText = 'Stop';
+        } else {
+            log.info("set readonly...");
+            view.setReadOnly(true);
+            el.innerText = 'Edit';
+        }
+
+        view.focus();
+    }
+
+    function showPage(id) {
+        const win = window.open(id, '_blank');
+        win.focus();
     }
 </script>
 

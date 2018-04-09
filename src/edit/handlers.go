@@ -7,6 +7,7 @@
 package edit
 
 import (
+    "fmt"
     "net/http"
     "github.com/gorilla/websocket"
 )
@@ -57,3 +58,20 @@ func (h Handlers) PingHandler(request string) (CommandResponse, error) {
     return response, nil
 }
 
+// AboutHandler returns the about page
+func (h Handlers) AboutHandler(w http.ResponseWriter, r *http.Request) {
+    log.Info("show the about page")
+
+    // serve a template file...
+    // w.Header().Set("Content-Type", "plain/html")
+    fmt.Fprintf(w, "<!doctype html><html><pre>%s</pre><h5>Version %s</h5><html>", logo, Version())
+}
+
+// ConfigHandler returns the configuration dialog
+func (h Handlers) ConfigHandler (w http.ResponseWriter, r *http.Request) {
+    log.Info("show the configuration page")
+
+    // serve a template file...
+    // w.Header().Set("Content-Type", "plain/html")
+    fmt.Fprintf(w, "<!doctype html><html><pre>%s</pre><h5>Version %s</h5><h4>Configuration</h4><html>", logo, Version())
+}
