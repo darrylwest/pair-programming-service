@@ -41,7 +41,8 @@
     </div>
 </div>
 
-<pre id="editor">
+<pre id="editor"></pre>
+<!--
 /**
  * @author darryl.west
  * @created 2018-04-07 16:01:47
@@ -52,6 +53,7 @@ public class MyTestClass {
     }
 }
 </pre>
+-->
 
 <script src="js-editor/ace.js" type="text/javascript" charset="utf-8"></script>
 <!-- replace with js/custom.js + unit tests -->
@@ -68,6 +70,7 @@ public class MyTestClass {
     // editor.setKeyboardHandler('ace/keyboard/vim');
     const dfltKeyboardHandler = editor.getKeyboardHandler();
     editor.setFontSize(12);
+    editor.setReadOnly(true);
 
     editor.on('change', (e) => {
         sendUpdate(e);
