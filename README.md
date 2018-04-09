@@ -15,12 +15,6 @@ Create an environment where two or more coders can work on the same files.  Priv
 
 ### Block Diagram
 
-## References
-
-* Ace editor [documentation](https://ace.c9.io/#nav=api&api=document)
-* Ace editor [how to](https://ace.c9.io/#nav=howto)
-* Web Sockets [api](https://github.com/gorilla/websocket)
-
 ## Service Diagram
 
 ![diagram](pair-programming-service.jpg)
@@ -29,5 +23,11 @@ Create an environment where two or more coders can work on the same files.  Priv
 
 Pair documents are kept in sync through web sockets.  There is an event listener attached to the editor that sends each change delta to the recipient.  The recipient then applies this delta (or a set of deltas) through the document API, `doc.appyDelta(delta)` or `doc.applyDeltas([ delta1, delta2 ])`.  Documents can be fully refreshed by clicking on the refresh button.
 
-###### darryl.west | 2018.04.08
+## References
+
+* Ace editor [documentation](https://ace.c9.io/#nav=api&api=document)
+* Ace editor [how to](https://ace.c9.io/#nav=howto)
+* Web Sockets [api](https://github.com/gorilla/websocket)
+
+###### darryl.west | 2018.04.09
 
