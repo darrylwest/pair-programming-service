@@ -20,6 +20,7 @@
         right: 0;
     }
   </style>
+  <script src="https://cdn.rawgit.com/jonnyreeves/js-logger/master/src/logger.min.js"></script>
 </head>
 <body>
 
@@ -30,12 +31,12 @@
             <button href="javascript:void(0);">Open</button>
             <button href="javascript:void(0);">Save</button>
         </span>
-        <span style="margin-left:16px;">
+        <span style="margin-left:20px;">
             <button id="editButton" href="javascript:void(0);" onclick="toggleReadOnly(editor);">Edit</button>
             <button href="javascript:void(0);">Build</button>
             <button href="javascript:void(0);">Run Tests</button>
         </span>
-        <span style="margin-left:100px;">
+        <span style="margin-left:20px;">
             <button id="kbEditType" href="javascript:void(0);" onclick="toggleEditor(editor);">Vim</button>
             <button href="javascript:void(0);" onclick="showPage('/config');">Config</button>
             <button href="javascript:void(0);" onclick="showPage('/about');">About</button>
@@ -43,8 +44,7 @@
     </div>
 </div>
 
-<pre id="editor"></pre>
-<!--
+<pre id="editor">
 /**
  * @author darryl.west
  * @created 2018-04-07 16:01:47
@@ -55,13 +55,25 @@ public class MyTestClass {
     }
 }
 </pre>
--->
 
 <script src="js-editor/ace.js" type="text/javascript" charset="utf-8"></script>
 <!-- replace with js/custom.js + unit tests -->
 <script type="text/javascript">
+    function initLogger() {
+        Logger.messageId = 100;
+        Logger.useDefaults({
+            defaultLevel: Logger.INFO,
+            formatter: function(messages, context) {
+                messages.unshift(new Date().toISOString().substr(11));
+                messages.unshift(Logger.messageId++);
+            }
+        });
+        log = Logger.get('client');
+    }
+
+    initLogger();
     const version = '18.4.9';
-    console.log('Pair Programming Editor, Version', version);
+    log.info('Pair Programming Editor, Version', version);
 
     const editor = ace.edit("editor");
     editor.setTheme("ace/theme/textmate");
@@ -80,15 +92,13 @@ public class MyTestClass {
 </script>
 
 <script type="text/javascript">
-    const log = {
-        info: function(msg) {
-            console.log(msg);
-        }
-    };
+    function send(request) {
+        console.log(request);
+    }
 
     function sendUpdate(delta) {
         const req = '/update:' + JSON.stringify(delta);
-        console.log(req);
+        send(req);
     }
 
     function getElement(id) {
@@ -106,25 +116,28 @@ public class MyTestClass {
             el.innerText = "Atom";
         }
 
+        log.info('editor set to ', el.innerText);
+
         view.focus();
     }
 
     function toggleReadOnly(view) {
         const el = getElement('editButton');
         if (view.getReadOnly()) {
-            log.info("disable readonly...");
             view.setReadOnly(false);
             el.innerText = 'Stop';
         } else {
-            log.info("set readonly...");
             view.setReadOnly(true);
             el.innerText = 'Edit';
         }
+
+        log.info('edit set to:', el.innerText);
 
         view.focus();
     }
 
     function showPage(id) {
+        log.info('open window:', id);
         const win = window.open(id, '_blank');
         win.focus();
     }
