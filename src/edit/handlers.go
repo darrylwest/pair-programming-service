@@ -7,6 +7,7 @@
 package edit
 
 import (
+    "net/http"
     "github.com/gorilla/websocket"
 )
 
@@ -43,6 +44,11 @@ func (h Handlers) InitCommands() map[string]Commander {
     return commands
 }
 
+// ClientHandler upgrade the connection for websockets
+func (h Handlers) ClientHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
 // PingHandler return the ping response
 func (h Handlers) PingHandler(request string) (CommandResponse, error) {
     response := make(map[string]interface{})
@@ -50,3 +56,4 @@ func (h Handlers) PingHandler(request string) (CommandResponse, error) {
 
     return response, nil
 }
+

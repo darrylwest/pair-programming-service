@@ -14,16 +14,23 @@ import (
 
 // Service - the service struct
 type Service struct {
-	cfg *Config
+	cfg      *Config
+    handlers *Handlers
 }
 
 // NewService create a new service by passing in config
 func NewService(cfg *Config) (*Service, error) {
+    handlers, err := NewHandlers(cfg)
+    if err != nil {
+        log.Error("error creating handlers: %s", err)
+    }
+
 	svc := Service{
 		cfg: cfg,
+        handlers: handlers,
 	}
 
-	return &svc, nil
+	return &svc, err
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,11 +45,13 @@ func aboutHandler(w http.ResponseWriter, r *http.Request) {
 func (svc Service) Start() error {
 	log.Info("start the hub service...")
 	cfg := svc.cfg
+    hnd := svc.handlers
 
     fs := http.FileServer(http.Dir(cfg.StaticFolder))
     http.Handle("/", fs)
 
     http.HandleFunc("/about", aboutHandler)
+    http.HandleFunc("/wsapi", hnd.ClientHandler)
 
 	// start the listener
     host := fmt.Sprintf(":%d", cfg.Port)

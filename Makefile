@@ -1,6 +1,7 @@
 SHELL = /bin/bash
 export GOPATH:=$(HOME)/.gopath:$(PWD)
 SERVICE = editor-service
+.SILENT:
 
 build: 
 	@[ -d bin ] || mkdir bin
