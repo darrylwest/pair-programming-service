@@ -92,12 +92,14 @@ public class MyTestClass {
 </script>
 
 <script type="text/javascript">
+    let ws = null;
     function send(request) {
         console.log(request);
+        ws.send(request);
     }
 
     function sendUpdate(delta) {
-        const req = '/update:' + JSON.stringify(delta);
+        const req = '/update/' + JSON.stringify(delta);
         send(req);
     }
 
@@ -141,7 +143,6 @@ public class MyTestClass {
         win.focus();
     }
 
-    let ws = null;
     function openWebsockets() {
         const url = [ "ws://", location.host, "/wsapi" ].join("");
         log.info("open the remote socket from:", url);
