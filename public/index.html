@@ -108,6 +108,7 @@ public class MyTestClass {
 
     function toggleEditor(view) {
         const el = getElement('kbEditType');
+        log.info('set editor to', el.innerText);
         if (view.getKeyboardHandler().$id === 'ace/keyboard/vim') {
             view.setKeyboardHandler(dfltKeyboardHandler);
             el.innerText = "Vim";
@@ -116,13 +117,13 @@ public class MyTestClass {
             el.innerText = "Atom";
         }
 
-        log.info('editor set to ', el.innerText);
 
         view.focus();
     }
 
     function toggleReadOnly(view) {
         const el = getElement('editButton');
+        log.info('edit set to:', el.innerText);
         if (view.getReadOnly()) {
             view.setReadOnly(false);
             el.innerText = 'Stop';
@@ -130,8 +131,6 @@ public class MyTestClass {
             view.setReadOnly(true);
             el.innerText = 'Edit';
         }
-
-        log.info('edit set to:', el.innerText);
 
         view.focus();
     }
