@@ -9,11 +9,14 @@ package edit
 import (
     "fmt"
     "net/http"
+    "strings"
+    "time"
+
     "github.com/gorilla/websocket"
 )
 
 // CommandResponse the response from a web socket message
-type CommandResponse map[string]interface{}
+type CommandResponse interface{}
 
 // Commander a command type def
 type Commander func(string) (CommandResponse, error)
@@ -41,6 +44,9 @@ func NewHandlers(cfg *Config) (*Handlers, error) {
 func (h Handlers) InitCommands() map[string]Commander {
     log.Info("initialize web socket commands")
     commands["ping"] = h.PingHandler
+    commands["update"] = h.UpdateHandler
+    commands["build"] = h.PingHandler
+    commands["test"] = h.PingHandler
 
     return commands
 }
@@ -59,6 +65,10 @@ func (h Handlers) ClientHandler(w http.ResponseWriter, r *http.Request) {
         conn.Close()
     }()
 
+    if len(commands) == 0 {
+        h.InitCommands()
+    }
+
     for {
         _, raw, err := conn.ReadMessage()
         if err != nil {
@@ -69,24 +79,63 @@ func (h Handlers) ClientHandler(w http.ResponseWriter, r *http.Request) {
         log.Info("raw request: %s", raw)
         request := string(raw)
         log.Info("%s", request)
+
+        wrapper := h.CreateResponseWrapper(request)
+        response, err := h.RequestHandler(request)
+        if err != nil {
+            wrapper["status"] = "failed"
+            wrapper["reason"] = err.Error()
+            if response != nil {
+                wrapper["response"] = response
+            }
+        } else {
+			wrapper["status"] = "ok"
+			wrapper["response"] = response
+        }
+
+		wrapper["ts"] = time.Now().Format(time.RFC3339)
+		err = conn.WriteJSON(wrapper)
+		if err != nil {
+			log.Warn("socket error: %s", err)
+			break
+		}
     }
 }
 
-// CreateResponseWrapper creates the standard response wrapper for websocket messages
-func (h Handlers) CreateResponseWrapper(request string) CommandResponse {
-    wrapper := make(map[string]interface{})
+// RequestHandler parses the request and returns a response or error if request is bad
+func (h Handlers) RequestHandler(request string) (CommandResponse, error) {
+	if len(commands) == 0 {
+		h.InitCommands()
+	}
 
+	req := strings.Split(request, "/")[1]
+
+	op, ok := commands[req]
+	if !ok {
+		log.Warn("unrecognized websocket command: %s", request)
+		return nil, fmt.Errorf("not a recognized command: %s", request)
+	}
+
+	return op(request)
+}
+
+// CreateResponseWrapper creates the standard response wrapper for websocket messages
+func (h Handlers) CreateResponseWrapper(request string) map[string]interface{} {
+    wrapper := make(map[string]interface{})
     wrapper["request"] = request
+    wrapper["response"] = ""
 
     return wrapper
 }
 
 // PingHandler return the ping response
 func (h Handlers) PingHandler(request string) (CommandResponse, error) {
-    wrapper := h.CreateResponseWrapper(request)
-    wrapper["response"] = "pong"
+    return "pong", nil
+}
 
-    return wrapper, nil
+// UpdateHandler broadcast the document delta to all clients
+func (h Handlers) UpdateHandler(request string) (CommandResponse, error) {
+    return "ok", nil
 }
 
 // AboutHandler returns the about page

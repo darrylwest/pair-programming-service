@@ -140,6 +140,25 @@ public class MyTestClass {
         const win = window.open(id, '_blank');
         win.focus();
     }
+
+    let ws = null;
+    function openWebsockets() {
+        const url = [ "ws://", location.host, "/wsapi" ].join("");
+        log.info("open the remote socket from:", url);
+
+        ws = new WebSocket(url);
+        ws.onclose = evt => {
+            log.info("web socket closed...");
+        };
+
+        ws.onmessage = evt => {
+            log.info("message: ", evt.data);
+        };
+
+        ws.onerror = evt => log.error(evt.data);
+
+        // start the ping loop
+    }
 </script>
 
 </body>
