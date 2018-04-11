@@ -95,7 +95,9 @@ public class MyTestClass {
     let ws = null;
     function send(request) {
         console.log(request);
-        ws.send(request);
+        if (ws != null) {
+            ws.send(request);
+        }
     }
 
     function sendUpdate(delta) {
@@ -150,6 +152,7 @@ public class MyTestClass {
         ws = new WebSocket(url);
         ws.onclose = evt => {
             log.info("web socket closed...");
+            ws = null;
         };
 
         ws.onmessage = evt => {
@@ -160,6 +163,9 @@ public class MyTestClass {
 
         // start the ping loop
     }
+
+    // open on start...
+    openWebsockets();
 </script>
 
 </body>
