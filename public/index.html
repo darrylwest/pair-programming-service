@@ -93,6 +93,7 @@ public class MyTestClass {
 
 <script type="text/javascript">
     let ws = null;
+    let id = null;
     function send(request) {
         console.log(request);
         if (ws != null) {
@@ -145,10 +146,16 @@ public class MyTestClass {
         win.focus();
     }
 
+    function createClientId() {
+        const id = [ Date.now().toString(34), Math.floor(Math.random() * 100000).toString(34) ].join('');
+        return id;
+    }
+
     function openWebsockets() {
         const url = [ "ws://", location.host, "/wsapi" ].join("");
         log.info("open the remote socket from:", url);
 
+        id = createClientId();
         ws = new WebSocket(url);
         ws.onclose = evt => {
             log.info("web socket closed...");
