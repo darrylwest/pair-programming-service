@@ -29,6 +29,7 @@ type Handlers struct {
 var (
     upgrader = websocket.Upgrader{}
     commands = make(map[string]Commander)
+    clients  = make(map[string]websocket.Conn)
 )
 
 // NewHandlers create a new web socket handlers struct
@@ -76,9 +77,8 @@ func (h Handlers) ClientHandler(w http.ResponseWriter, r *http.Request) {
             break
         }
 
-        log.Info("raw request: %s", raw)
+        log.Debug("raw request: %s", raw)
         request := string(raw)
-        log.Info("%s", request)
 
         wrapper := h.CreateResponseWrapper(request)
         response, err := h.RequestHandler(request)
@@ -135,6 +135,9 @@ func (h Handlers) PingHandler(request string) (CommandResponse, error) {
 
 // UpdateHandler broadcast the document delta to all clients
 func (h Handlers) UpdateHandler(request string) (CommandResponse, error) {
+    log.Info("update request: %s", request);
+    // copy to the listening clients
+    
     return "ok", nil
 }
 
